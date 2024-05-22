@@ -38,10 +38,7 @@ def scroll_down(driver: webdriver.Chrome, timeout: int = 10):
     # page. The JavaScript code is similar to the previous one, the difference is
     # that this time we are using the argument "arguments[0]" to pass the timeout
     # to the code and wait until the scroll is done.
-    driver.execute_script(
-        "var start = performance.now(); var end = start + arguments[0]; while (performance.now() < end) { window.scrollTo(0, document.body.scrollHeight); }",
-        timeout
-    )
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
 def initialize_driver(url: str, category: AlainNewsCategory) -> None:
     
