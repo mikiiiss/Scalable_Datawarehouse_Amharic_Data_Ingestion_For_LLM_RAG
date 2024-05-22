@@ -194,34 +194,56 @@ class AlainNewsScraper:
             return ""
 
     def get_news(self) -> list[dict]:
-        news = []
-        for category in AlainNewsCategory:
-            self.initialize_driver(category)
-            pages_to_scrape = self.number_of_pages_to_scrape
-            while pages_to_scrape > 0:
-                pages_to_scrape -= 1
-                articles = self.get_all_articles_on_page_by_category()
-                if not articles:
-                    print(f"No articles found on page {pages_to_scrape + 1} of category {category.value}")
-                else:
-                    for article in articles:
+        """
+        Retrieves news articles from various categories using web scraping.
+
+        This function first initializes the web driver for each category in the AlainNewsCategory enum.
+        Then, it navigates to each page of the given category and retrieves all the articles on that page.
+        For each article, it retrieves the following information:
+
+            - The image URL of the article
+            - The title of the article
+            - The URL of the article
+            - The highlight/summary of the article
+            - The time the article was published
+            - The category of the article
+
+        Raises:
+            WebDriverException: If there is an error with the web driver.
+            AttributeError: If an attribute is not found.
+            Exception: If any other error occurs during scraping.
+        """
+        news = []  # List to store all the news articles
+        for category in AlainNewsCategory:  # Iterate through all categories
+            self.initialize_driver(category)  # Initialize the web driver for the given category
+            pages_to_scrape = self.number_of_pages_to_scrape  # Get the number of pages to scrape for the given category
+            while pages_to_scrape > 0:  # While there are still pages to scrape
+                pages_to_scrape -= 1  # Decrement the number of pages to scrape
+                articles = self.get_all_articles_on_page_by_category()  # Get all the articles on the current page
+                if not articles:  # If there are no articles on the current page
+                    print(f"No articles found on page {pages_to_scrape + 1} of category {category.value}")  # Print an error message
+                else:  # If there are articles on the current page
+                    for article in articles:  # Iterate through all the articles on the current page
                         try:
-                            news.append({
-                                "image_url": self.get_image_url(article),
-                                "title": self.get_title(article),
-                                "article_url": self.get_article_url(article),
-                                "highlight": self.get_highlight(article),
-                                "time_publish": self.get_time_publish(article),
-                                "category": category.value
-                            })
-                        except (WebDriverException, AttributeError, Exception) as e:
-                            print(f"An error occurred while scraping article on page {pages_to_scrape + 1} of category {category.value}:", e)
-                next = self.get_next_page_element()
-                if next.text == AlainNewsButton.NEXT_PAGE.value and pages_to_scrape > 0:
-                    self.driver.execute_script("arguments[0].click();", next)
-                else:
-                    break
-        return news
+                            news.append(  # Create a dictionary for the current article
+                                {
+                                    "image_url": self.get_image_url(article),  # The URL of the article's image
+                                    "title": self.get_title(article),  # The title of the article
+                                    "article_url": self.get_article_url(article),  # The URL of the article
+                                    "highlight": self.get_highlight(article),  # The highlight/summary of the article
+                                    "time_publish": self.get_time_publish(article),  # The time the article was published
+                                    "category": category.value  # The category of the article
+                                }
+                            )
+                        except (WebDriverException, AttributeError, Exception) as e:  # Catch any errors during scraping
+                            print(f"An error occurred while scraping article on page {pages_to_scrape + 1} of category {category.value}:", e)  # Print an error message
+                next_page = self.get_next_page_element()  # Get the next page element
+                if next_page.text == AlainNewsButton.NEXT_PAGE.value and pages_to_scrape > 0:  # If the next page element says "Next Page" and there are still pages to scrape
+                    self.driver.execute_script("arguments[0].click();", next_page)  # Click the next page element
+                else:  # If the next page element does not say "Next Page" or there are no more pages to scrape
+                    break  # Break out of the loop
+        return news  # Return the list of news articles
+
 
     def get_full_news(self) -> list[dict]:
         """
