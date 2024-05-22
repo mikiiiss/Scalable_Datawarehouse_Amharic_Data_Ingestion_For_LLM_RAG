@@ -224,20 +224,61 @@ class AlainNewsScraper:
         return news
 
     def get_full_news(self) -> list[dict]:
+        """
+        Retrieves all the news articles and their corresponding content.
+
+        This function first retrieves all the news articles using the `get_news` method.
+        Then, for each article, it navigates to the content page of the article and retrieves
+        the following information:
+
+            - The date the article was published
+            - The name of the publisher of the article
+            - The content of the article
+
+        The retrieved information is then added to the existing information of the article
+        as a dictionary and the updated dictionary is returned.
+
+        Returns:
+            list[dict]: A list of dictionaries, where each dictionary represents a news article
+                and its corresponding content.
+        """
         news = self.get_news()
         for n in news:
             print("The article on page of category {} is: {}".format(n.get('category'), n.get('article_url')))
             try:
+                # Navigate to the content page of the article
                 self.driver.get(n.get('article_url'))
+
+                # Retrieve the content of the article
                 detail_content = self.driver.find_element(By.ID, 'content-details').text
+
+                # Retrieve the publisher name of the article
                 publisher_name = self.driver.find_element(By.CLASS_NAME, 'card-author').text
+
+                # Retrieve the date the article was published
                 date_published = self.driver.find_element(By.CLASS_NAME, 'tags').find_element(By.TAG_NAME, 'time').text
+
+                # Add the retrieved information to the existing information of the article
+                # as a dictionary
                 n["date_published"] = date_published
                 n["publisher_name"] = publisher_name
                 n["detail_content"] = detail_content
+
             except (WebDriverException, AttributeError, Exception) as e:
                 print(f"An error occurred while scraping content page of category {n.get('category')} :: {e}")
         return news
 
+
+    # Quit the web driver
+    # This method closes the web driver and terminates the underlying browser process
+    # It is generally a good practice to quit the web driver as soon as you are
+    # finished using it to free up system resources
     def quit_driver(self):
+        """
+        Quit the web driver
+
+        This method closes the web driver and terminates the underlying browser process
+        It is generally a good practice to quit the web driver as soon as you are
+        finished using it to free up system resources
+        """
         self.driver.quit()
