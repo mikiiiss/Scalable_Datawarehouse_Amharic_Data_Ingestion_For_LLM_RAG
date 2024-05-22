@@ -1,1 +1,3 @@
 nlp/**
+.env
+**/__pycache__
