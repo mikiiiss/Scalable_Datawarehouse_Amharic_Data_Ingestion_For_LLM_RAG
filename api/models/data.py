@@ -1,8 +1,9 @@
 from sqlalchemy import  Column,  Integer, String
-from .base import Base
+from .base import Database
 
-
-class Data(Base):
+db = Database()
+base = db.get_base()
+class Data(base):
     __tablename__ = "data"
 
     id = Column(Integer, primary_key=True)
