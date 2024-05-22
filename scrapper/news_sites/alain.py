@@ -266,7 +266,7 @@ class AlainNewsScraper:
         """
         news = self.get_news()
         for n in news:
-            print("The article on page of category {} is: {}".format(n.get('category'), n.get('article_url')))
+            # print("The article on page of category {} is: {}".format(n.get('category'), n.get('article_url')))
             try:
                 # Navigate to the content page of the article
                 self.driver.get(n.get('article_url'))
@@ -287,7 +287,7 @@ class AlainNewsScraper:
                 n["detail_content"] = detail_content
 
             except (WebDriverException, AttributeError, Exception) as e:
-                print(f"An error occurred while scraping content page of category {n.get('category')} :: {e}")
+                print(f"An error occurred while scraping content page of category {n.get('category')} and url {n.get('article_url')}:: {e}")
         return news
 
 
