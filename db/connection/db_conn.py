@@ -1,8 +1,6 @@
 import pandas as pd
-from sqlalchemy import create_engine, MetaData, inspect, text
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine, inspect, text
 import os
-# from dotenv import load_dotenv
 import sys
 
 class DatabaseLoader:
