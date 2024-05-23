@@ -126,3 +126,6 @@ class DataCleaner:
             hours = int(re.search(r'\d+', time_str).group())
             return pd.Timestamp.now() - pd.Timedelta(hours=hours)
         return pd.NaT
+    
+    def convert_to_datetime(self, date_published):
+        return pd.to_datetime(date_published, format='%Y/%m/%d %H:%M %Z', errors='coerce')
