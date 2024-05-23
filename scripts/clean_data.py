@@ -1,5 +1,5 @@
 import re
-
+import pandas as pd
 
 class DataCleaner:
     def __init__(self, data = None):
@@ -120,3 +120,9 @@ class DataCleaner:
         text = re.sub(r'\s+', ' ', text)
         text = text.strip()
         return text
+    
+    def convert_time_publish(time_str):
+        if 'hours ago' in time_str:
+            hours = int(re.search(r'\d+', time_str).group())
+            return pd.Timestamp.now() - pd.Timedelta(hours=hours)
+        return pd.NaT
