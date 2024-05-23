@@ -129,3 +129,7 @@ class DataCleaner:
     
     def convert_to_datetime(self, date_published):
         return pd.to_datetime(date_published, format='%Y/%m/%d %H:%M %Z', errors='coerce')
+    
+    def handle_missing_values(self, df: pd.DataFrame):
+        # Handle missing values (example: filling missing with 'Unknown')
+        df.fillna('Unknown', inplace=True)
