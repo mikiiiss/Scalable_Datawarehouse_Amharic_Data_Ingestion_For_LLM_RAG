@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy import String, and_, inspect, or_
+from sqlalchemy import String,  inspect, or_
 from sqlalchemy.orm import Session
 
 
 from models.article import Article
 from view_model.article_vm import ArticleCreateVM, ArticleFilterVM 
-from typing import List
+
 
 
 

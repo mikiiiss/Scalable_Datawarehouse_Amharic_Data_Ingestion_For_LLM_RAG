@@ -1,5 +1,5 @@
 
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException,  status
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from  models.database import Database
@@ -31,28 +31,40 @@ app.add_middleware(
 
 
 database = Database(SQLALCHEMY_DATABASE_URL)
+session = database.get_db
 
 
 
 
 @app.post("/data/", response_model=article_vm.ArticleCreateVM)
-def create_data(data:article_vm.ArticleCreateVM, db: Session = Depends(database.get_db)):
-    db_user =  article_controller.create_data(db,  data = data)
-    return db_user
+def create_data(data: article_vm.ArticleCreateVM, db: Session = Depends(session)):
+    try:
+        db_user = article_controller.create_data(db, data=data)
+        return db_user
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
-    
 @app.post("/data/search", response_model=list[article_vm.ArticleVM])
-async def search_data(search_request: article_vm.ArticleSearch, db: Session = Depends(database.get_db)):
-    query = search_request.query
-    result = article_controller.search_data(db,query)
-    return result
+async def search_data(search_request: article_vm.ArticleSearch, db: Session = Depends(session)):
+    try:
+        query = search_request.query
+        result = article_controller.search_data(db, query)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
 @app.post("/data/filter", response_model=list[article_vm.ArticleVM])
-async def search_data(data: article_vm.ArticleFilterVM, db: Session = Depends(database.get_db)):
-    result = article_controller.filter_data(db,data)
-    return result
+async def filter_data(data: article_vm.ArticleFilterVM, db: Session = Depends(session)):
+    try:
+        result = article_controller.filter_data(db, data)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
 @app.get("/data/get", response_model=list[article_vm.ArticleCreateVM])
-def get_data(db: Session = Depends(database.get_db) ):
-    db_user =  article_controller.get_data(db)
-    return db_user
+def get_data(db: Session = Depends(session)):
+    try:
+        db_user = article_controller.get_data(db)
+        return db_user
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
