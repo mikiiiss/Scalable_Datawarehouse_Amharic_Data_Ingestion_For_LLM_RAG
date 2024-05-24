@@ -7,8 +7,16 @@ from dotenv import load_dotenv
 
 load_dotenv()
 rpath = os.path.abspath('../api')
-SQLALCHEMY_DATABASE_URL = os.getenv('DB_CONNECTION_STRING')
 
+
+
+username = os.getenv("DB_USERNAME")
+password = os.getenv("DB_PASSWORD")
+host = os.getenv("DB_HOST")
+port = os.getenv("DB_PORT")
+database = os.getenv("DB_DATABASE")
+
+SQLALCHEMY_DATABASE_URL = f"postgresql+psycopg2://{username}:{password}@{host}:{port}/{database}"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, connect_args={}
