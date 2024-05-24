@@ -1,10 +1,8 @@
 from sqlalchemy import  Column,  Integer, String
-from .database import Database
+from .database import Base
 
-db = Database()
-base = db.get_base()
-class Article(base):
-    __tablename__ = "data"
+class Article(Base):
+    __tablename__ = "articles"
 
     id = Column(Integer, primary_key=True)
     image_url = Column(String)
