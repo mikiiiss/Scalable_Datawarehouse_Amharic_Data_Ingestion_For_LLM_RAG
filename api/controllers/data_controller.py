@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy import String, inspect, or_
+from sqlalchemy import String, and_, inspect, or_
 from sqlalchemy.orm import Session
 
 
@@ -29,7 +29,6 @@ def create_data( db: Session, data:DataCreateVM):
 def get_data (db: Session):
         return  db.query(Data)
 def search_data(db: Session, query: str):
-      
     search_term = f"%{query}%"
     columns = [column.name for column in inspect(Data).columns]
     filters = []
@@ -37,11 +36,22 @@ def search_data(db: Session, query: str):
         col_attr = getattr(Data, column)
         
         if isinstance(col_attr.type, String):
-            
             filters.append(col_attr.like(search_term))
    
     results = db.query(Data).filter(or_(*filters)).all()
     return results
 
-def get_user(db: Session, data: DataFilterVM):
-    return db.query(models.User).filter(models.User.id == user_id).first()
+def filter_data(db: Session, query_params: dict):
+    filters = []
+    for column_name, value in query_params.items():
+        column = getattr(Data, column_name, None)
+        if value is not None and column is not None:
+            filters.append(column == value)
+    
+    print("filters:", filters)
+    
+    # Apply the filters with AND logic to the query
+    results = db.query(Data).filter(and_(*filters)).all()
+    
+    print("results:", results)
+    return results

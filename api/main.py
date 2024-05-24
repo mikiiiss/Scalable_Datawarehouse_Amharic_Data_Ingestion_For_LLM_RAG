@@ -47,6 +47,11 @@ async def search_data(search_request: data_vm.DataSearch, db: Session = Depends(
     result = data_controller.search_data(db,query)
     return result
 
+@app.post("/data/filter", response_model=list[data_vm.DataVM])
+async def search_data(data: data_vm.DataVM, db: Session = Depends(database.get_db)):
+    result = data_controller.filter_data(db,data)
+    return result
+
 @app.get("/data/get", response_model=list[data_vm.DataCreateVM])
 def get_data(db: Session = Depends(database.get_db) ):
     db_user =  data_controller.get_data(db)
