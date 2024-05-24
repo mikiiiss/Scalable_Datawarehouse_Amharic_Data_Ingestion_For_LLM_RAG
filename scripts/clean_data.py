@@ -133,3 +133,6 @@ class DataCleaner:
     def handle_missing_values(self, df: pd.DataFrame):
         # Handle missing values (example: filling missing with 'Unknown')
         df.fillna('Unknown', inplace=True)
+    
+    def export_to_csv(self, df: pd.DataFrame, file_name: str):
+        df.to_csv(file_name, index=False)
