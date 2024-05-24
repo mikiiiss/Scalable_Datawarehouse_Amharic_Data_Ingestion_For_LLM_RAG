@@ -1,9 +1,9 @@
 from sqlalchemy import  Column,  Integer, String
-from .base import Database
+from .database import Database
 
 db = Database()
 base = db.get_base()
-class Data(base):
+class Article(base):
     __tablename__ = "data"
 
     id = Column(Integer, primary_key=True)
