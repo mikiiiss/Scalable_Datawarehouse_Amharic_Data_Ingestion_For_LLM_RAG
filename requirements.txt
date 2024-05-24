@@ -3,3 +3,11 @@ webdriver_manager
 pandas
 sqlalchemy
 psycopg2
+
+
+
+
+#backend requirements 
+fastapi
+sqlalchemy
+python-dotenv
