@@ -35,24 +35,24 @@ database = Database(SQLALCHEMY_DATABASE_URL)
 
 
 
-@app.post("/data/", response_model=article_vm.DataCreateVM)
-def create_data(data:article_vm.DataCreateVM, db: Session = Depends(database.get_db)):
+@app.post("/data/", response_model=article_vm.ArticleCreateVM)
+def create_data(data:article_vm.ArticleCreateVM, db: Session = Depends(database.get_db)):
     db_user =  article_controller.create_data(db,  data = data)
     return db_user
 
     
-@app.post("/data/search", response_model=list[article_vm.DataVM])
-async def search_data(search_request: article_vm.DataSearch, db: Session = Depends(database.get_db)):
+@app.post("/data/search", response_model=list[article_vm.ArticleVM])
+async def search_data(search_request: article_vm.ArticleSearch, db: Session = Depends(database.get_db)):
     query = search_request.query
     result = article_controller.search_data(db,query)
     return result
 
-@app.post("/data/filter", response_model=list[article_vm.DataVM])
-async def search_data(data: article_vm.DataVM, db: Session = Depends(database.get_db)):
+@app.post("/data/filter", response_model=list[article_vm.ArticleVM])
+async def search_data(data: article_vm.ArticleFilterVM, db: Session = Depends(database.get_db)):
     result = article_controller.filter_data(db,data)
     return result
 
-@app.get("/data/get", response_model=list[article_vm.DataCreateVM])
+@app.get("/data/get", response_model=list[article_vm.ArticleCreateVM])
 def get_data(db: Session = Depends(database.get_db) ):
     db_user =  article_controller.get_data(db)
     return db_user

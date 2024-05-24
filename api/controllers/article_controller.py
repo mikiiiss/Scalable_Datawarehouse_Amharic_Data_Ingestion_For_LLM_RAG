@@ -4,12 +4,12 @@ from sqlalchemy.orm import Session
 
 
 from models.article import Article
-from view_model.article_vm import DataCreateVM, DataFilterVM 
+from view_model.article_vm import ArticleCreateVM, ArticleFilterVM 
 from typing import List
 
 
 
-def create_data( db: Session, data:DataCreateVM):
+def create_data( db: Session, data:ArticleCreateVM):
         db_data = Article( 
                         image_url = data.image_url,
                         title = data.title,
@@ -41,17 +41,28 @@ def search_data(db: Session, query: str):
     results = db.query(Article).filter(or_(*filters)).all()
     return results
 
-def filter_data(db: Session, query_params: dict):
-    filters = []
-    for column_name, value in query_params.items():
-        column = getattr(Article, column_name, None)
-        if value is not None and column is not None:
-            filters.append(column == value)
+def filter_data(db: Session, filter_params: ArticleFilterVM):
+    query = db.query(Article)
     
-    print("filters:", filters)
-    
-    # Apply the filters with AND logic to the query
-    results = db.query(Article).filter(and_(*filters)).all()
-    
-    print("results:", results)
-    return results
+    if filter_params.id is not None:
+        query = query.filter(Article.id == filter_params.id)
+    if filter_params.image_url:
+        query = query.filter(Article.image_url == filter_params.image_url)
+    if filter_params.title:
+        query = query.filter(Article.title == filter_params.title)
+    if filter_params.article_url:
+        query = query.filter(Article.article_url == filter_params.article_url)
+    if filter_params.highlight:
+        query = query.filter(Article.highlight == filter_params.highlight)
+    if filter_params.time_publish:
+        query = query.filter(Article.time_publish == filter_params.time_publish)
+    if filter_params.category:
+        query = query.filter(Article.category == filter_params.category)
+    if filter_params.date_published:
+        query = query.filter(Article.date_published == filter_params.date_published)
+    if filter_params.publisher_name:
+        query = query.filter(Article.publisher_name == filter_params.publisher_name)
+    if filter_params.detail_content:
+        query = query.filter(Article.detail_content == filter_params.detail_content)
+
+    return query.all()
