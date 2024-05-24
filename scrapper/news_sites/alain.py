@@ -21,7 +21,7 @@ class AlainNewsButton(Enum):
 class AlainNewsScraper:
     def __init__(
         self, 
-        url: str, 
+        url: str = 'https://am.al-ain.com/', 
         headless: bool = True, 
         number_of_pages_to_scrape: int = 1
     ) -> None:
