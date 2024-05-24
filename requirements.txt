@@ -3,7 +3,7 @@ webdriver_manager
 pandas
 sqlalchemy
 psycopg2
-
+langdetect
 
 
 
@@ -11,3 +11,4 @@ psycopg2
 fastapi
 sqlalchemy
 python-dotenv
+
