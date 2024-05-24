@@ -115,7 +115,7 @@ class DataCleaner:
             raise ValueError(
                 "An error occurred while removing ASCII characters and numbers from the input text. Exception: {}".format(e)) from e
 
-    def clean_text(self, text):
+    def remove_newline_and_extra_space(self, text):
         # Remove newline characters and extra spaces
         text = re.sub(r'\s+', ' ', text)
         text = text.strip()
