@@ -17,9 +17,9 @@ router = APIRouter(
 
  
 @router.get("/", response_model=list[telegram_article_vm.TelegramArticleVM])
-def get_telegram_data(db: Session = Depends(session)):
+def get_telegram_data(skip: int = 0, limit: int = 100,db: Session = Depends(session)):
     try:
-        db_user = telegram_article_controller.get_data(db)
+        db_user = telegram_article_controller.get_data(db,skip, limit)
         return db_user
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
