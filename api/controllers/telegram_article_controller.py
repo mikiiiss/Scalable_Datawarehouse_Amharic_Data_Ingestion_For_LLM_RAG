@@ -1,7 +1,6 @@
 from fastapi import HTTPException, status
 from sqlalchemy import String,  inspect, or_
 from sqlalchemy.orm import Session
-
 from sqlalchemy.exc import SQLAlchemyError
 from models.telegram_article import TelegramArticle
 from view_model.telegram_article_vm import TelegramArticleCreateVM, TelegramArticleFilterVM 
@@ -23,9 +22,9 @@ def create_data(db: Session, data: TelegramArticleCreateVM):
         db.rollback()
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
-def get_data(db: Session) -> list[TelegramArticle]:
+def get_data(db: Session,skip: int = 0, limit: int = 100) -> list[TelegramArticle]:
     try:
-        return db.query(TelegramArticle).all()
+        return db.query(TelegramArticle).offset(skip).limit(limit).all()
     except SQLAlchemyError as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 

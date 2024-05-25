@@ -30,9 +30,9 @@ def create_data(db: Session, data: ArticleCreateVM):
         db.rollback()
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
-def get_data(db: Session) -> list[Article]:
+def get_data(db: Session, skip: int = 0, limit: int = 100) -> list[Article]:
     try:
-        return db.query(Article).all()
+        return db.query(Article).offset(skip).limit(limit).all()
     except SQLAlchemyError as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
