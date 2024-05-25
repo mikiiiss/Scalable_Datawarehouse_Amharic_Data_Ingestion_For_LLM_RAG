@@ -2,7 +2,7 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class DataBaseVM(BaseModel):
+class ArticleBaseVM(BaseModel):
     image_url : str 
     title : str
     article_url : str
@@ -14,10 +14,10 @@ class DataBaseVM(BaseModel):
     detail_content : str
    
    
-class DataCreateVM(DataBaseVM):
+class ArticleCreateVM(ArticleBaseVM):
     pass
 
-class DataVM(DataBaseVM):
+class ArticleVM(ArticleBaseVM):
     id: int
    
 
@@ -26,11 +26,11 @@ class DataVM(DataBaseVM):
 
 
 
-class DataSearch(BaseModel):
+class ArticleSearch(BaseModel):
     query: str
     
 
-class DataFilterVM(BaseModel):
+class ArticleFilterVM(BaseModel):
     id:int | None = None
     image_url : str | None = None
     title : str | None = None
