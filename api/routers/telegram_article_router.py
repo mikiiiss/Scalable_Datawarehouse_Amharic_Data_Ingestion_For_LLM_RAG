@@ -1,6 +1,5 @@
 
-from fastapi import APIRouter, Depends, FastAPI, HTTPException,  status
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi import APIRouter, Depends,  HTTPException,  status
 from sqlalchemy.orm import Session
 from  models.database import get_db as session
 import view_model.telegram_article_vm   as telegram_article_vm

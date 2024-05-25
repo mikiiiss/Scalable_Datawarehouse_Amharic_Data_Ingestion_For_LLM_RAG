@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends,  HTTPException,  status
 from sqlalchemy.orm import Session
-from  models.database import get_base as session
+from  models.database import get_db as session
 from controllers  import article_controller
 
 
