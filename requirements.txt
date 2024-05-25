@@ -9,6 +9,5 @@ langdetect
 
 #backend requirements 
 fastapi
-sqlalchemy
 python-dotenv
 
