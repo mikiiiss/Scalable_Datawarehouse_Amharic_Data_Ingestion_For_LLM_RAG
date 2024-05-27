@@ -2,7 +2,8 @@ from fastapi import  FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import article_router
 from routers import telegram_article_router
-
+import uvicorn
+from models.database import create_all_tables
 
 
 app = FastAPI(
@@ -19,12 +20,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+#Create tables
+create_all_tables()
 
 app.include_router(article_router.router)
 app.include_router(telegram_article_router.router)
 
 
 if __name__ == "__main__":
-    import uvicorn
+    
     uvicorn.run(app, host="0.0.0.0", port=8000)

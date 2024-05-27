@@ -6,14 +6,11 @@ import view_model.telegram_article_vm   as telegram_article_vm
 from controllers  import telegram_article_controller
 
 
-
 router = APIRouter(
     prefix="/telegramArticle",
     tags=["telegram_articles"],
     responses={404: {"description": "Not found"}},
 )
-
-
 
  
 @router.get("/", response_model=list[telegram_article_vm.TelegramArticleVM])

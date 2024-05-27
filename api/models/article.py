@@ -2,7 +2,7 @@ from sqlalchemy import  Column,  Integer, String
 from .database import Base
 
 class Article(Base):
-    __tablename__ = "articles"
+    __tablename__ = "news_articles"
 
     id = Column(Integer, primary_key=True)
     image_url = Column(String)
