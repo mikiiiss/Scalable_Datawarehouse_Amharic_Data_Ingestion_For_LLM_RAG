@@ -5,6 +5,7 @@ from routers import telegram_article_router
 
 
 
+
 app = FastAPI(
         title="Amharic data integration for LLM",
         description="",

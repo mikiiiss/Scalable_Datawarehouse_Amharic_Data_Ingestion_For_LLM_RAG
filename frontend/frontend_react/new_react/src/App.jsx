@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import React from 'react';
 import api from "./api.js";
-import ArticleList from "./ArticleList.js"
+//import ArticleList from "./ArticleList.js"
 //import { data } from "./data.js";
 //import axios from "axios";
 import "./App.css";
@@ -14,7 +14,7 @@ function App() {
   return (
       <div className="flex flex-col">
         <DataList />
-        <Table />
+        <Table /> 
       </div>
   );
 }
