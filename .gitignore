@@ -1,0 +1,12 @@
+Amharic.csv
+/.ssh
+/notebooks/rasyosef
+notebooks/__pycache__
+.cache
+.conda
+.config
+.local
+.nv
+.dotnet
+.ipython
+.vscode-server
